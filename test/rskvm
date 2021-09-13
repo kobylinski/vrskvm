@@ -1,0 +1,11 @@
+#!/bin/sh
+
+ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+RESULT="$ROOT/$1.txt"
+
+if [[ -f $RESULT ]]; then
+  cat "$RESULT"
+  exit 0
+fi
+
+exit 1

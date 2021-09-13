@@ -1,0 +1,77 @@
+{
+  "name": "vrskvm",
+  "version": "0.0.1",
+  "description": "Visual tool for rskvm",
+  "main": "main.js",
+  "repository": "git@github.com:kobylinski/vrskvm.git",
+  "author": {
+    "name": "Marek Kobylinski",
+    "email": "marek@kobylinski.co",
+    "url": "https://kobylinski.co"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@rollup/plugin-buble": "^0.21.3",
+    "@rollup/plugin-html": "^0.2.3",
+    "@rollup/plugin-node-resolve": "^13.0.4",
+    "@rollup/pluginutils": "^4.1.1",
+    "concurrently": "^6.2.1",
+    "electron": "^14.0.0",
+    "electron-builder": "^22.11.7",
+    "electron-debug": "^3.2.0",
+    "electron-reload": "^2.0.0-alpha.1",
+    "electron-store": "^8.0.0",
+    "electron-unhandled": "^3.0.2",
+    "electron-util": "^0.17.2",
+    "rollup": "^2.56.3",
+    "rollup-plugin-cleaner": "^1.0.0",
+    "rollup-plugin-styles": "^3.14.1",
+    "sass": "^1.39.2"
+  },
+  "dependencies": {
+    "redom": "^3.27.1",
+    "redom-state": "^1.2.2",
+    "wait-on": "^6.0.0"
+  },
+  "scripts": {
+    "start-cleanup": "rm -Rf dist/window/*",
+    "start-rollup": "rollup -c --watch",
+    "start-electron": "wait-on -d 1000 dist/window/index.html && electron --trace-warnings .",
+    "start": "concurrently 'yarn:start-cleanup' 'yarn:start-rollup' 'yarn:start-electron'",
+    "dist-rollup": "rollup -c",
+    "dist-electron": "electron-builder --macos --linux",
+    "dist": "yarn dist-rollup && dist-electron"
+  },
+  "build": {
+    "appId": "com.kobylinski.vrskvm",
+    "mac": {
+      "category": "public.app-category.developer-tools",
+      "darkModeSupport": true
+    },
+    "dmg": {
+      "iconSize": 160,
+      "contents": [
+        {
+          "x": 180,
+          "y": 170
+        },
+        {
+          "x": 480,
+          "y": 170,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "category": "Network;RemoteAccess"
+    }
+  },
+  "vrskvm": {
+    "command": "test/rskvm"
+  }
+}
